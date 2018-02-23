@@ -29,6 +29,7 @@ public class CPU {
 				//read data
 				String[] memoryAccess = readData(scanFiles);
 				System.out.println(Arrays.toString(memoryAccess));
+				
 				//give data to MMU for fetching or writing, store the result 
 				// of what happen after that access into an array
 				String[] tmp = MMUnit.processMemoryAccess(memoryAccess);

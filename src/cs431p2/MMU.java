@@ -1,10 +1,17 @@
 package cs431p2;
 
+import java.util.Arrays;
+
 public class MMU {
 	
+	String isSoftMiss;
+	String isHardMiss;
+	String isHit;
+	
 	public MMU() {
-		
-		
+		isSoftMiss = "0";
+		isHardMiss = "0";
+		isHit = "0";
 	}
 	
 	/*@return an array contains the result to output to CSV file
@@ -23,8 +30,33 @@ public class MMU {
 	 * [2] only available if value of [0] is 1*/
 	public String[] processMemoryAccess(String[] memoryAccess) {
 		
-		String[] s = {"1", "2", "3", "4", "5", "6", "7", "8" };
-		return s;
+		String[] result = new String[8];
+		
+		result[0] = memoryAccess[1];
+		result[1] = memoryAccess[0];
+		result[2] = getValueFromPageTable();
+		result[3] = isSoftMiss;
+		result[4] = isHardMiss;
+		result[5] = isHit;
+		result[6] = "evicted page num";
+		result[7] = "dirty bit of the evicted page";
+		
+		resetSoftHardHit();
+		return result;
+		
+	}
+	
+	/*Look up the TLB first, then look up page table if necessary  */
+	private String getValueFromPageTable() {
+		
+		return null;
+	}
+	
+	private void resetSoftHardHit() {
+		
+		isSoftMiss = "0";
+		isHardMiss = "0";
+		isHit = "0";
 	}
 
 }
