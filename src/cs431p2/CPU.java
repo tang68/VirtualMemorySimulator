@@ -13,7 +13,7 @@ public class CPU {
 		System.out.println("Enter test file name: ");
 //		String testFile = scanInput.next();
 //		String testFilePath = "Project2_test_and_page_files/test_files/" + testFile;
-		String testFilePath = "Project2_test_and_page_files/test_files/test_1.txt";
+		String testFilePath = "Project2_test_and_page_files/test_files/test.txt";
 		
 		Scanner scanFiles = null;
 		MMU MMUnit = new MMU();
