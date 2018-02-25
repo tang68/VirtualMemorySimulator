@@ -11,8 +11,9 @@ public class PageTable {
 		pageTable = new PageTableEntries[256];
 	}
 
-	public String searchPageTable(String address) {
+	public String searchPageTable(String[] memoryAccess) {
 		
+		String address = memoryAccess[1];
 		String virtualPageNumber = address.substring(0, 2);
 		String offset = address.substring(2, 4);
 		

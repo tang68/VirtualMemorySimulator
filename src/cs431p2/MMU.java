@@ -38,10 +38,7 @@ public class MMU {
 		
 		result[0] = memoryAccess[1];
 		result[1] = memoryAccess[0];
-		
-		//something could be done differently here to handle when it reads or write
-		//if it's a read just call getValueFromPageTable(), else need to also write data to file
-		result[2] = (memoryAccess[0].equals("0")) ? getValueFromPageTable(memoryAccess[1]) : memoryAccess[2];
+		result[2] = getValueFromPageTable(memoryAccess) ;
 		result[3] = isSoftMiss;
 		result[4] = isHardMiss;
 		result[5] = isHit;
@@ -55,14 +52,14 @@ public class MMU {
 	
 
 	/*Look up the TLB first, then look up page table if necessary  */
-	private String getValueFromPageTable(String address) {
-		
-		String value = TLBuffer.searchTLB(address);
+	private String getValueFromPageTable(String[] memoryAccess) {
+
+		String value = TLBuffer.searchTLB(memoryAccess);
 		if (value != null)
 			isHit = "1";
 		
 		else {
-			value = pt.searchPageTable(address);
+			value = pt.searchPageTable(memoryAccess);
 			if (value != null)
 				isSoftMiss = "1";
 			else {
@@ -72,6 +69,7 @@ public class MMU {
 			
 		}
 
+		//value = memoryAccess[0].equals("0") ? value : memoryAccess[2];
 		return value;
 	}
 	

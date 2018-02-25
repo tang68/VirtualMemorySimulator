@@ -34,9 +34,12 @@ public class CPU {
 				// of what happen after that access into an array
 				String[] tmp = MMUnit.processMemoryAccess(memoryAccess);
 				
-				//if tmp[2] = null => hard miss, CPU trap to OS, OS get data from disk and put to memory
+				//on read, if tmp[2] = null => hard miss, CPU trap to OS, 
+				//OS get data from disk and put to memory
 				if (tmp[2] == null)
 					tmp[2] = os.bringPageToMemory(memoryAccess[1]);
+				
+				
 				
 				//put tmp array to the output array
 				output[outputIndex] = tmp;

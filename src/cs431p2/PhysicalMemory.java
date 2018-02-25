@@ -2,10 +2,6 @@ package cs431p2;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class PhysicalMemory {
@@ -48,6 +44,13 @@ public class PhysicalMemory {
 		
 		return returnVal;
 		
+	}
+	
+	public static String writeToMemory(int frame, String offset, String value) {
+		
+		
+		
+		return value;
 	}
 	
 	public static Boolean isMemoryFull() {
