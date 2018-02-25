@@ -1,4 +1,4 @@
-package circularLinkedList;
+package cs431p2.circularLinkedList;
 
 
 public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{

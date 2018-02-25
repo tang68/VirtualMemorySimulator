@@ -7,11 +7,15 @@ public class MMU {
 	String isSoftMiss;
 	String isHardMiss;
 	String isHit;
+	TLB TLBuffer;
+	PageTable pt;
 	
 	public MMU() {
 		isSoftMiss = "0";
 		isHardMiss = "0";
 		isHit = "0";
+		TLBuffer = new TLB();
+		pt = new PageTable();
 	}
 	
 	/*@return an array contains the result to output to CSV file
@@ -34,7 +38,7 @@ public class MMU {
 		
 		result[0] = memoryAccess[1];
 		result[1] = memoryAccess[0];
-		result[2] = getValueFromPageTable();
+		result[2] = getValueFromPageTable(memoryAccess[1]);
 		result[3] = isSoftMiss;
 		result[4] = isHardMiss;
 		result[5] = isHit;
@@ -46,10 +50,26 @@ public class MMU {
 		
 	}
 	
+
 	/*Look up the TLB first, then look up page table if necessary  */
-	private String getValueFromPageTable() {
+	private String getValueFromPageTable(String address) {
 		
-		return null;
+		String value = TLBuffer.searchTLB(address);
+		if (value != null)
+			isHit = "1";
+		
+		else {
+			value = pt.searchPageTable(address);
+			if (value != null)
+				isSoftMiss = "1";
+			else {
+				isHardMiss = "1";
+				value = null;
+			}
+			
+		}
+
+		return value;
 	}
 	
 	private void resetSoftHardHit() {

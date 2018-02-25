@@ -1,0 +1,10 @@
+Address,R/W,Value,Soft,Hard,Hit,EvictedPageNumber,DirtyEvictedPage
+9C01,0,192,0,1,0,evicted page num,dirty bit of the evicted page
+6A02,0,232,0,1,0,evicted page num,dirty bit of the evicted page
+9C03,0,211,0,0,1,evicted page num,dirty bit of the evicted page
+9C04,0,106,0,0,1,evicted page num,dirty bit of the evicted page
+B502,0,113,0,1,0,evicted page num,dirty bit of the evicted page
+F1FF,0,192,0,1,0,evicted page num,dirty bit of the evicted page
+9C02,0,136,0,0,1,evicted page num,dirty bit of the evicted page
+9CFF,0,145,0,0,1,evicted page num,dirty bit of the evicted page
+6A03,0,58,0,0,1,evicted page num,dirty bit of the evicted page
