@@ -38,7 +38,10 @@ public class MMU {
 		
 		result[0] = memoryAccess[1];
 		result[1] = memoryAccess[0];
-		result[2] = getValueFromPageTable(memoryAccess[1]);
+		
+		//something could be done differently here to handle when it reads or write
+		//if it's a read just call getValueFromPageTable(), else need to also write data to file
+		result[2] = (memoryAccess[0].equals("0")) ? getValueFromPageTable(memoryAccess[1]) : memoryAccess[2];
 		result[3] = isSoftMiss;
 		result[4] = isHardMiss;
 		result[5] = isHit;
