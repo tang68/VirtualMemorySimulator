@@ -1,17 +1,5 @@
 Address,R/W,Value,Soft,Hard,Hit,EvictedPageNumber,DirtyEvictedPage
 9C01,0,192,0,1,0,evicted page num,dirty bit of the evicted page
-6A02,0,232,0,1,0,evicted page num,dirty bit of the evicted page
-9C03,0,211,0,0,1,evicted page num,dirty bit of the evicted page
-9C04,0,106,0,0,1,evicted page num,dirty bit of the evicted page
-B502,0,113,0,1,0,evicted page num,dirty bit of the evicted page
-F1FF,0,192,0,1,0,evicted page num,dirty bit of the evicted page
-1A01,0,139,0,1,0,evicted page num,dirty bit of the evicted page
-2A01,0,181,0,1,0,evicted page num,dirty bit of the evicted page
-3A01,0,86,0,1,0,evicted page num,dirty bit of the evicted page
-4A01,0,2,0,1,0,evicted page num,dirty bit of the evicted page
-5A01,0,213,0,1,0,evicted page num,dirty bit of the evicted page
-6A01,0,117,0,0,1,evicted page num,dirty bit of the evicted page
-7A01,0,232,0,1,0,evicted page num,dirty bit of the evicted page
-9C02,0,136,1,0,0,evicted page num,dirty bit of the evicted page
-9CFF,0,145,1,0,0,evicted page num,dirty bit of the evicted page
-6A03,0,58,1,0,0,evicted page num,dirty bit of the evicted page
+1A01,1,999999901,0,1,0,evicted page num,dirty bit of the evicted page
+1A02,1,9999999902,0,0,1,evicted page num,dirty bit of the evicted page
+1B01,1,88888888801,0,1,0,evicted page num,dirty bit of the evicted page
