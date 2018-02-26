@@ -59,14 +59,20 @@ public class PhysicalMemory {
 	}
 	
 	public static Boolean isMemoryFull() {
-		return frameNumber == 15;
+		
+		for (int i = 0; i < RAM.length; i++) {
+			if (RAM[i][0] == null)
+				return false;
+		}
+		return true;
 	}
 	
 	private static int getOffSetInDecimal(String offset) {
 		return Integer.decode("0x" + offset);
 	}
 	
-	public static int getNextAvailableFrameNumber() {
+	//return max int if RAM is full, else loop thru, return i where RAM[i][0] that is not null
+	public static int getNextAvailableFrame() {
 		return 0;
 	}
 	
