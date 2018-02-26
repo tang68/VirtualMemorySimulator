@@ -4,7 +4,7 @@ public class OS {
 	
 	
 	//put a new page to physical memory, evict a page using the clock algorithm if necessary
-	public String bringPageToMemory(String address) {
+	public String bringPageToMemory(String[] memoryAccess) {
 		
 		//check to see if we need to evict a page
 		
@@ -13,7 +13,7 @@ public class OS {
 //			evict();
 //		}
 		
-		String value = PhysicalMemory.addNewFrame(address);
+		String value = PhysicalMemory.addNewFrame(memoryAccess);
 		
 		
 		

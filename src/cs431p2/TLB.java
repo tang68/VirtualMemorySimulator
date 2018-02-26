@@ -1,8 +1,6 @@
 package cs431p2;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class TLB {
 	
@@ -37,20 +35,36 @@ public class TLB {
 
 				//take the page frame # and the offset, go to physical memory to get value
 				int frameNumber = TLBuffer[i].getPageFrameNum();
-				if(isRead)
+				if(isRead) {
+					System.out.println(TLBIndex + " TLBIndex --- TLB content ->" + 
+							Arrays.toString(TLBuffer));
 					return PhysicalMemory.getValue(frameNumber, offset);
-				else
+				}
+					
+				else {
+					TLBuffer[i].setDirtyBit("1");
+					System.out.println(TLBIndex + " TLBIndex --- TLB content ->" + 
+							Arrays.toString(TLBuffer));
 					return PhysicalMemory.writeToMemory(frameNumber, offset, memoryAccess[2]);
+				}
+					
+				
 			}
 		}
 		
 		if (TLBIndex == 8)
 			TLBIndex = 0;
 		
-		TLBuffer[TLBIndex] = new TLBEntries(virtualPageNumber, "1", "1", "0", 
-				PhysicalMemory.getFrameNumber());
+		if (isRead)
+			TLBuffer[TLBIndex] = new TLBEntries(virtualPageNumber, "1", "1", "0", 
+					PhysicalMemory.getFrameNumber());
+		else
+			TLBuffer[TLBIndex] = new TLBEntries(virtualPageNumber, "1", "1", "1", 
+					PhysicalMemory.getFrameNumber());
 		TLBIndex++;
 		
+		System.out.println(TLBIndex + " TLBIndex --- TLB content ->" + 
+		Arrays.toString(TLBuffer));
 		return null;
 	}
 

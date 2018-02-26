@@ -37,10 +37,11 @@ public class CPU {
 				//on read, if tmp[2] = null => hard miss, CPU trap to OS, 
 				//OS get data from disk and put to memory
 				if (tmp[2] == null)
-					tmp[2] = os.bringPageToMemory(memoryAccess[1]);
+					tmp[2] = os.bringPageToMemory(memoryAccess);
+				String[][] testRAM = PhysicalMemory.getRAM();
+				//System.out.println(Arrays.deepToString(s));
 				
-				
-				
+				System.out.println(Arrays.toString(tmp) + "\n");
 				//put tmp array to the output array
 				output[outputIndex] = tmp;
 				outputIndex++;

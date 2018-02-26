@@ -17,6 +17,11 @@ public class TLBEntries {
 		dirtyBit = dirty;
 		pageFrameNum = frame;
 	}
+	
+	public String toString() {
+		return virtualPageNum + "-" + validBit + "-" + 
+	refferenceBit + "-" + dirtyBit + "-" + pageFrameNum;
+	}
 
 	
 	/*

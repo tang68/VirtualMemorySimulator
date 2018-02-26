@@ -17,6 +17,11 @@ public class PageTableEntries {
 		pageFrameNum = frame;
 	}
 	
+	public String toString() {
+		return  validBit + "-" + 
+	refferenceBit + "-" + dirtyBit + "-" + pageFrameNum;
+	}
+	
 	/*
 	 *GETTERS SETTERS BLOCK 
 	 */

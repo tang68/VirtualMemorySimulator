@@ -15,8 +15,16 @@ public class PhysicalMemory {
 		return RAM[frame][getOffSetInDecimal(offset)];
 	}
 
-	public static String addNewFrame(String address) {
+	public static String writeToMemory(int frame, String offset, String value) {
 		
+		RAM[frame][getOffSetInDecimal(offset)] = value;
+		
+		return value;
+	}
+	
+	public static String addNewFrame(String[] memoryAccess) {
+		
+		String address = memoryAccess[1];
 		String returnVal = "";
 		String virtualPageNumber = address.substring(0, 2);
 		String offset = address.substring(2, 4);
@@ -33,6 +41,10 @@ public class PhysicalMemory {
 					offsetIndex++;
 				}
 			}
+			
+			if (memoryAccess[0].equals("1"))
+				RAM[frameNumber][getOffSetInDecimal(offset)] = memoryAccess[2];
+			
 			returnVal = RAM[frameNumber][getOffSetInDecimal(offset)];
 			frameNumber++;
 
@@ -46,42 +58,29 @@ public class PhysicalMemory {
 		
 	}
 	
-	public static String writeToMemory(int frame, String offset, String value) {
-		
-		
-		
-		return value;
-	}
-	
 	public static Boolean isMemoryFull() {
 		return frameNumber == 15;
 	}
 	
 	private static int getOffSetInDecimal(String offset) {
-		
-
 		return Integer.decode("0x" + offset);
-		
 	}
 	
 	public static int getNextAvailableFrameNumber() {
-		
 		return 0;
 	}
 	
+	public static String[][] getRAM() {
+		return RAM;
+	}
+
+	public static void setRAM(String[][] rAM) {
+		RAM = rAM;
+	}
+
 	public static int getFrameNumber() {
 		return frameNumber;
 	}
-
-//	public static String[][] getRAM() {
-//		return RAM;
-//	}
-//
-//	public static void setRAM(String[][] rAM) {
-//		RAM = rAM;
-//	}
-
-
 
 	public static void setFrameNumber(int frameNumber) {
 		PhysicalMemory.frameNumber = frameNumber;

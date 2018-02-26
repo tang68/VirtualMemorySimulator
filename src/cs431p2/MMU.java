@@ -1,6 +1,5 @@
 package cs431p2;
 
-import java.util.Arrays;
 
 public class MMU {
 	
