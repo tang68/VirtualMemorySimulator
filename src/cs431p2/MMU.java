@@ -7,14 +7,12 @@ public class MMU {
 	String isHardMiss;
 	String isHit;
 	TLB TLBuffer;
-	PageTable pt;
 	
 	public MMU() {
 		isSoftMiss = "0";
 		isHardMiss = "0";
 		isHit = "0";
 		TLBuffer = new TLB();
-		pt = new PageTable();
 	}
 	
 	/*@return an array contains the result to output to CSV file
@@ -58,7 +56,7 @@ public class MMU {
 			isHit = "1";
 		
 		else {
-			value = pt.searchPageTable(memoryAccess);
+			value = PageTable.searchPageTable(memoryAccess);
 			if (value != null)
 				isSoftMiss = "1";
 			else {

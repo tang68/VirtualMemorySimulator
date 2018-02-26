@@ -4,16 +4,9 @@ import java.util.Arrays;
 
 public class PageTable {
 	
-	private PageTableEntries[] pageTable;
-	//private int pageIndex;
-	
-	
-	public PageTable() {
-		//pageIndex = 0;
-		pageTable = new PageTableEntries[256];
-	}
+	private static PageTableEntries[] pageTable = new PageTableEntries[256];
 
-	public String searchPageTable(String[] memoryAccess) {
+	public static String searchPageTable(String[] memoryAccess) {
 		
 		Boolean isRead = memoryAccess[0].equals("0");
 		String address = memoryAccess[1];
@@ -43,6 +36,7 @@ public class PageTable {
 			if (isRead) {
 				pageTable[intVirtualPageNum] = new PageTableEntries("1", "1", "0", 
 						PhysicalMemory.getFrameNumber());
+				OS.addItemToClock(pageTable[intVirtualPageNum]);
 				System.out.println(intVirtualPageNum + " PT Index --Page Table -> " + 
 						Arrays.toString(pageTable));
 			}
@@ -50,16 +44,20 @@ public class PageTable {
 			else {
 				pageTable[intVirtualPageNum] = new PageTableEntries("1", "1", "1", 
 						PhysicalMemory.getFrameNumber());
+				OS.addItemToClock(pageTable[intVirtualPageNum]);
 				System.out.println(intVirtualPageNum + " PT Index --Page Table -> " + 
 						Arrays.toString(pageTable));	
 			}
 			
 			return null;
 		}
-		
-		
-		
 	}
+	
+
+	public static PageTableEntries[] getPageTable() {
+		return pageTable;
+	}
+
 	
 
 }

@@ -22,7 +22,7 @@ public class PhysicalMemory {
 		return value;
 	}
 	
-	public static String addNewFrame(String[] memoryAccess) {
+	public static String addDataToMemory(String[] memoryAccess, int frame) {
 		
 		String address = memoryAccess[1];
 		String returnVal = "";
@@ -37,16 +37,16 @@ public class PhysicalMemory {
 			while (scanFiles.hasNextLine()) {
 				String num = scanFiles.nextLine();
 				if (num.length() > 0) {
-					RAM[frameNumber][offsetIndex] = num;
+					RAM[frame][offsetIndex] = num;
 					offsetIndex++;
 				}
 			}
 			
 			if (memoryAccess[0].equals("1"))
-				RAM[frameNumber][getOffSetInDecimal(offset)] = memoryAccess[2];
+				RAM[frame][getOffSetInDecimal(offset)] = memoryAccess[2];
 			
-			returnVal = RAM[frameNumber][getOffSetInDecimal(offset)];
-			frameNumber++;
+			returnVal = RAM[frame][getOffSetInDecimal(offset)];
+			frameNumber = getNextAvailableFrame();
 
 		} catch (FileNotFoundException ex) {
 			System.out.println("***** Unable to open file");
@@ -60,11 +60,7 @@ public class PhysicalMemory {
 	
 	public static Boolean isMemoryFull() {
 		
-		for (int i = 0; i < RAM.length; i++) {
-			if (RAM[i][0] == null)
-				return false;
-		}
-		return true;
+		return frameNumber == Integer.MAX_VALUE;
 	}
 	
 	private static int getOffSetInDecimal(String offset) {
@@ -73,7 +69,12 @@ public class PhysicalMemory {
 	
 	//return max int if RAM is full, else loop thru, return i where RAM[i][0] that is not null
 	public static int getNextAvailableFrame() {
-		return 0;
+		
+		for (int i = 0; i < RAM.length; i++) {
+			if (RAM[i][0] == null)
+				return i;
+		}
+		return Integer.MAX_VALUE;
 	}
 	
 	public static String[][] getRAM() {

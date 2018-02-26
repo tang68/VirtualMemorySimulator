@@ -13,11 +13,10 @@ public class CPU {
 		System.out.println("Enter test file name: ");
 //		String testFile = scanInput.next();
 //		String testFilePath = "Project2_test_and_page_files/test_files/" + testFile;
-		String testFilePath = "Project2_test_and_page_files/test_files/test.txt";
+		String testFilePath = "Project2_test_and_page_files/test_files/test_1.txt";
 		
 		Scanner scanFiles = null;
 		MMU MMUnit = new MMU();
-		OS os = new OS();
 		try {
 			scanFiles = new Scanner(new FileInputStream(testFilePath));
 			String[][] output = new String[1000][8];
@@ -37,9 +36,9 @@ public class CPU {
 				//on read, if tmp[2] = null => hard miss, CPU trap to OS, 
 				//OS get data from disk and put to memory
 				if (tmp[2] == null)
-					tmp[2] = os.bringPageToMemory(memoryAccess);
+					tmp[2] = OS.bringPageToMemory(memoryAccess);
+				
 				String[][] testRAM = PhysicalMemory.getRAM();
-				//System.out.println(Arrays.deepToString(s));
 				
 				System.out.println(Arrays.toString(tmp) + "\n");
 				//put tmp array to the output array
@@ -48,8 +47,10 @@ public class CPU {
 				if (outputIndex == output.length)
 					output = Arrays.copyOf(output, output.length * 2);
 				
+				//System.out.println(OS.getClock());
 			}
 			
+
 			outputToCSV(output, "o1.csv");
 
 		} catch (FileNotFoundException ex) {

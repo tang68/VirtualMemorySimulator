@@ -1,5 +1,6 @@
 package cs431p2.circularLinkedList;
 
+import java.util.Arrays;
 
 public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 	
@@ -127,6 +128,11 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 			currentNode=currentNode.next;
 		}
 		return result;
+	}
+	
+	public String toString() {
+		
+		return Arrays.toString(toArray());
 	}
 
 	/*
