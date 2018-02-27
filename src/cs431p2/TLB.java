@@ -36,16 +36,19 @@ public class TLB {
 				//take the page frame # and the offset, go to physical memory to get value
 				int frameNumber = TLBuffer[i].getPageFrameNum();
 				if(isRead) {
-					System.out.println(TLBIndex + " TLBIndex --- TLB content ->" + 
-							Arrays.toString(TLBuffer));
+//					System.out.println(TLBIndex + " TLBIndex --- TLB content ->" + 
+//							Arrays.toString(TLBuffer));
 					return PhysicalMemory.getValue(frameNumber, offset);
 				}
 					
 				else {
 					TLBuffer[i].setDirtyBit("1");
-					System.out.println(TLBIndex + " TLBIndex --- TLB content ->" + 
-							Arrays.toString(TLBuffer));
-					return PhysicalMemory.writeToMemory(frameNumber, offset, memoryAccess[2]);
+					try {
+						return PhysicalMemory.writeToMemory(frameNumber, offset, memoryAccess[2]);
+					} catch (Exception e) {
+						OS.bringPageToMemory(memoryAccess);
+						return PhysicalMemory.writeToMemory(frameNumber, offset, memoryAccess[2]);
+					}
 				}
 					
 				
@@ -63,8 +66,8 @@ public class TLB {
 					PhysicalMemory.getFrameNumber());
 		TLBIndex++;
 		
-		System.out.println(TLBIndex + " TLBIndex --- TLB content ->" + 
-		Arrays.toString(TLBuffer));
+//		System.out.println(TLBIndex + " TLBIndex --- TLB content ->" + 
+//				Arrays.toString(TLBuffer));
 		return null;
 	}
 

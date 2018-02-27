@@ -29,6 +29,11 @@ public class CPU {
 				String[] memoryAccess = readData(scanFiles);
 				System.out.println(Arrays.toString(memoryAccess));
 				
+				if (memoryAccess[1].equals("72EF")) {
+					System.out.println();
+				}
+					
+				
 				//give data to MMU for fetching or writing, store the result 
 				// of what happen after that access into an array
 				String[] tmp = MMUnit.processMemoryAccess(memoryAccess);
@@ -39,6 +44,7 @@ public class CPU {
 					tmp[2] = OS.bringPageToMemory(memoryAccess);
 				
 				
+				
 				System.out.println(Arrays.toString(tmp) + "\n");
 				//put tmp array to the output array
 				output[outputIndex] = tmp;
@@ -46,7 +52,11 @@ public class CPU {
 				if (outputIndex == output.length)
 					output = Arrays.copyOf(output, output.length * 2);
 				
-				//System.out.println(OS.getClock());
+				OS.updateClock();
+				
+				RAMEntries[] test = PhysicalMemory.getRAM();
+				System.out.println(test);
+				int x = 0;
 			}
 			
 

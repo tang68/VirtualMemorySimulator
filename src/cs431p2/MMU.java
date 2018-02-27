@@ -39,8 +39,8 @@ public class MMU {
 		result[3] = isSoftMiss;
 		result[4] = isHardMiss;
 		result[5] = isHit;
-		result[6] = "evicted page num";
-		result[7] = "dirty bit of the evicted page";
+		result[6] = "";
+		result[7] = "";
 		
 		resetSoftHardHit();
 		return result;

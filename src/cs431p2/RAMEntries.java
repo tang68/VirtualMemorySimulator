@@ -2,59 +2,46 @@ package cs431p2;
 
 public class RAMEntries {
 
-	private String[][] r;
-	private int frameNum;
+	private String[] r;
+	private String virtualPage;
 	private String validBit;
 	private String refBit;
 	private String dirtyBit;
 
 	public RAMEntries() {
-		r = new String[16][256];
-		frameNum = 0;
-		validBit = "0";
-		refBit = "0";
+		r = new String[256];
+		virtualPage = "";
+		validBit = "1";
+		refBit = "1";
 		dirtyBit = "0";
 	}
 
-	public void setRAMItem(int index, String[] arr) {
-		r[index] = arr;
+	public void setRAMItem(String[] arr) {
+		r = arr;
 	}
 
-	public void writeNewValueToRam(int frame, int offset, String value) {
-		r[frame][offset] = value;
+	public String getValueWrittenToMemory(int offset) {
+		return r[offset];
 	}
 
-	public String getValueWrittenToMemory(int frame, int offset) {
-		return r[frame][offset];
+	public void write(int offset, String value) {
+		r[offset] = value;
 	}
 
-	public int getNextAvailableFrame() {
-
-		for (int i = 0; i < r.length; i++) {
-			if (r[i][0] == null)
-				return i;
-		}
-		return Integer.MAX_VALUE;
-	}
-
-	public void write(int frame, int offset, String value) {
-		r[frame][offset] = value;
-	}
-
-	public String getValue(int frame, int offset) {
-		return r[frame][offset];
-	}
-
-	public int getFrameNum() {
-		return frameNum;
-	}
-
-	public void setFrameNum(int frameNum) {
-		this.frameNum = frameNum;
+	public String getValue(int offset) {
+		return r[offset];
 	}
 
 	public String getValidBit() {
 		return validBit;
+	}
+
+	public String getVirtualPage() {
+		return virtualPage;
+	}
+
+	public void setVirtualPage(String virtualPage) {
+		this.virtualPage = virtualPage;
 	}
 
 	public void setValidBit(String validBit) {
@@ -75,6 +62,10 @@ public class RAMEntries {
 
 	public void setDirtyBit(String dirtyBit) {
 		this.dirtyBit = dirtyBit;
+	}
+
+	public String toString() {
+		return validBit + "--" + refBit + "--" + dirtyBit + " * ";
 	}
 
 

@@ -6,8 +6,9 @@ import java.util.Scanner;
 
 public class PhysicalMemory {
 
-	private static RAMEntries RAM = new RAMEntries();
+	private static RAMEntries[] RAM = new RAMEntries[16];
 	private static final String pagesFilePath = "Project2_test_and_page_files/page_files/";
+	private static int frameNumber = 0;
 	
 	public static String addDataToMemory(String[] memoryAccess, int frame) {
 		
@@ -30,13 +31,21 @@ public class PhysicalMemory {
 				}
 			}
 			
-			RAM.setRAMItem(frame, tmpRAMItem);
+			RAM[frameNumber] = new RAMEntries();
+			RAM[frameNumber].setRAMItem(tmpRAMItem);
+			RAM[frameNumber].setVirtualPage(virtualPageNumber);
 			
-			if (memoryAccess[0].equals("1"))
-				RAM.writeNewValueToRam(frame, getOffSetInDecimal(offset), memoryAccess[2]);
+			OS.updateClock();
+			
+			if (memoryAccess[0].equals("1")) {
+				RAM[frame].write(getOffSetInDecimal(offset), memoryAccess[2]);
+				RAM[frame].setValidBit("1");
+				RAM[frame].setRefBit("1");
+				RAM[frame].setDirtyBit("1");
+			}
 
-			returnVal = RAM.getValueWrittenToMemory(frame, getOffSetInDecimal(offset));
-			RAM.setFrameNum(RAM.getNextAvailableFrame());
+			returnVal = RAM[frameNumber].getValueWrittenToMemory(getOffSetInDecimal(offset));
+			
 
 		} catch (FileNotFoundException ex) {
 			System.out.println("***** Unable to open file");
@@ -44,59 +53,77 @@ public class PhysicalMemory {
 			scanFiles.close();
 		}
 		
+		//check to see if memory is full
+		frameNumber = getNextAvailableFrame();
+		if (frameNumber == Integer.MAX_VALUE)
+			frameNumber = OS.evict();
+		
+		
+		
 		return returnVal;
 		
 	}
 	
+	public static RAMEntries getRAMEntry(int frame) {
+		return RAM[frame];
+	}
+	
 	public static String getValue(int frame, String offset) {
-		return RAM.getValue(frame, getOffSetInDecimal(offset)); 
+		RAM[frame].setRefBit("1");
+		
+		try {
+		return RAM[frame].getValue(getOffSetInDecimal(offset));
+		} catch (Exception e) {
+			return null;
+		}
+		
 	}
 
 	public static String writeToMemory(int frame, String offset, String value) {
-		//RAM[frame][getOffSetInDecimal(offset)] = value;
-		RAM.write(frame, getOffSetInDecimal(offset), value);
+		RAM[frame].write(getOffSetInDecimal(offset), value);
+		RAM[frame].setValidBit("1");
+		RAM[frame].setRefBit("1");
+		RAM[frame].setDirtyBit("1");
 		return value;
 	}
 	
 	public static Boolean isMemoryFull() {
 		
-		return RAM.getFrameNum() == Integer.MAX_VALUE;
+		return frameNumber == Integer.MAX_VALUE; 
 	}
+	
 	
 	private static int getOffSetInDecimal(String offset) {
 		return Integer.decode("0x" + offset);
 	}
 	
 	public static int getFrameNumber() {
-		return RAM.getFrameNum();
+		return frameNumber;
 	}
 	
-	public void setFrameNum(int frameNum) {
-		RAM.setFrameNum(frameNum); 
+	public static int getNextAvailableFrame() {
+
+		for (int i = 0; i < RAM.length; i++) {
+			if (RAM[i] == null)
+				return i;
+		}
+		return Integer.MAX_VALUE;
 	}
 
-	public String getValidBit() {
-		return RAM.getValidBit();
+	public static RAMEntries[] getRAM() {
+		return RAM;
 	}
-
-	public void setValidBit(String validBit) {
-		RAM.setValidBit(validBit); 
+	
+	public static void setRefBit(int frame, String value) {
+		RAM[frame].setRefBit(value);
 	}
-
-	public String getRefBit() {
-		return RAM.getRefBit();
+	
+	public static String getRefBit(int frame) {
+		return RAM[frame].getRefBit();
 	}
-
-	public void setRefBit(String refBit) {
-		RAM.setRefBit(refBit);
-	}
-
-	public String getDirtyBit() {
-		return RAM.getDirtyBit();
-	}
-
-	public void setDirtyBit(String dirtyBit) {
-		RAM.setDirtyBit(dirtyBit);
+	
+	public static void setRAM(int frame, String[] entry) {
+		RAM[frame].setRAMItem(entry);
 	}
 	
 }

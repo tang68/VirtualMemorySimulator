@@ -83,7 +83,7 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 	 * @param Entry
 	 * @return the reference of the entry
 	 */
-	private Node<T> getReference(T Entry){
+	public Node<T> getReference(T Entry){
 		Node<T> currentNode = firstNode;
 		int runCount = 0;
 		boolean found = false;
@@ -96,6 +96,22 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 			runCount++;
 		}
 		return found? currentNode : null;
+	}
+	
+	public Boolean containsNode(T Entry) {
+		
+		Node<T> currentNode = firstNode;
+		int runCount = 0;
+		boolean found = false;
+		
+		while(!found && (currentNode != null)&&(runCount < numberOfEntries)){
+			if(Entry.equals(currentNode.data))
+				return true;
+			else
+				currentNode = currentNode.next;
+			runCount++;
+		}
+		return false;
 	}
 	
 	/**
@@ -167,5 +183,26 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 		}
 		return result;
 	}	
+	
+	public String toString() {
+		String s = "";
+		Node<T> currentNode = firstNode;
+		
+		for (int i = 0; i < numberOfEntries; i++) {
+			s += currentNode.getData() + " ";
+			currentNode = currentNode.next;
+		}
+		
+		return s;
+	}
 
 }
+
+
+
+
+
+
+
+
+

@@ -18,15 +18,21 @@ public class PageTable {
 		if (pageTable[intVirtualPageNum] != null &&
 				pageTable[intVirtualPageNum].getValidBit().equals("1")) {
 			if(isRead) {
-				System.out.println(intVirtualPageNum + " PT Index --Page Table -> " + 
-						Arrays.toString(pageTable));
+//				System.out.println(intVirtualPageNum + " PT Index --Page Table -> " + 
+//						Arrays.toString(pageTable));
 				return PhysicalMemory.getValue(pageTable[intVirtualPageNum].getPageFrameNum(), offset);
 			}
 			else {
-			PhysicalMemory.writeToMemory(pageTable[intVirtualPageNum].getPageFrameNum(),
-					offset, memoryAccess[2]);
-			System.out.println(intVirtualPageNum + " PT Index --Page Table -> " + 
-					Arrays.toString(pageTable));
+				try {
+					PhysicalMemory.writeToMemory(pageTable[intVirtualPageNum].getPageFrameNum(),
+							offset, memoryAccess[2]);
+				} catch (Exception e) {
+					OS.bringPageToMemory(memoryAccess);
+					PhysicalMemory.writeToMemory(pageTable[intVirtualPageNum].getPageFrameNum(),
+							offset, memoryAccess[2]);
+				}
+				
+
 			return memoryAccess[2];
 			}	
 		}
@@ -37,16 +43,16 @@ public class PageTable {
 				pageTable[intVirtualPageNum] = new PageTableEntries("1", "1", "0", 
 						PhysicalMemory.getFrameNumber());
 				//OS.addItemToClock(pageTable[intVirtualPageNum]);
-				System.out.println(intVirtualPageNum + " PT Index --Page Table -> " + 
-						Arrays.toString(pageTable));
+//				System.out.println(intVirtualPageNum + " PT Index --Page Table -> " + 
+//						Arrays.toString(pageTable));
 			}
 			
 			else {
 				pageTable[intVirtualPageNum] = new PageTableEntries("1", "1", "1", 
 						PhysicalMemory.getFrameNumber());
 				//OS.addItemToClock(pageTable[intVirtualPageNum]);
-				System.out.println(intVirtualPageNum + " PT Index --Page Table -> " + 
-						Arrays.toString(pageTable));	
+//				System.out.println(intVirtualPageNum + " PT Index --Page Table -> " + 
+//						Arrays.toString(pageTable));	
 			}
 			
 			return null;

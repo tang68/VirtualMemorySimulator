@@ -10,4 +10,6 @@ public interface CircularLinkedListInterface<T> {
 	public void replaceByGivenIndex(T newItem,int index);
 	public T getItemByIndex(int index);
 	public T[] toArray();
+	public Boolean containsNode(T Entry);
+	public String toString();
 }
