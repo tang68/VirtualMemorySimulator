@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class PhysicalMemory {
 
-	private static ram RAM = new ram();
+	private static RAMEntries RAM = new RAMEntries();
 	private static final String pagesFilePath = "Project2_test_and_page_files/page_files/";
 	
 	public static String addDataToMemory(String[] memoryAccess, int frame) {
@@ -72,86 +72,33 @@ public class PhysicalMemory {
 	}
 	
 	public void setFrameNum(int frameNum) {
-		RAM.frameNum = frameNum;
+		RAM.setFrameNum(frameNum); 
 	}
 
 	public String getValidBit() {
-		return RAM.validBit;
+		return RAM.getValidBit();
 	}
 
 	public void setValidBit(String validBit) {
-		RAM.validBit = validBit;
+		RAM.setValidBit(validBit); 
 	}
 
 	public String getRefBit() {
-		return RAM.refBit;
+		return RAM.getRefBit();
 	}
 
 	public void setRefBit(String refBit) {
-		RAM.refBit = refBit;
+		RAM.setRefBit(refBit);
 	}
 
 	public String getDirtyBit() {
-		return RAM.dirtyBit;
+		return RAM.getDirtyBit();
 	}
 
 	public void setDirtyBit(String dirtyBit) {
-		RAM.dirtyBit = dirtyBit;
+		RAM.setDirtyBit(dirtyBit);
 	}
 	
-	private static class ram {
-		
-		String[][] r;
-		int frameNum;
-		String validBit;
-		String refBit;
-		String dirtyBit;
-		
-		private ram() {
-			r = new String[16][256];
-			frameNum = 0;
-			validBit = "0";
-			refBit = "0";
-			dirtyBit = "0";
-		}
-
-		public void setRAMItem(int index, String[] arr) {
-			r[index] = arr;
-		}
-		
-		public void writeNewValueToRam(int frame, int offset, String value) {
-			r[frame][offset] = value;
-		}
-		
-		public String getValueWrittenToMemory(int frame, int offset) {
-			return r[frame][offset];
-		}
-		
-		public int getNextAvailableFrame() {
-			
-			for (int i = 0; i < r.length; i++) {
-				if (r[i][0] == null)
-					return i;
-			}
-			return Integer.MAX_VALUE;
-		}
-		
-		public void write(int frame, int offset, String value) {
-			r[frame][offset] = value;
-		}
-		
-		public String getValue(int frame, int offset) {
-			return r[frame][offset];
-		}
-
-		public int getFrameNum() {
-			return frameNum;
-		}
-
-		public void setFrameNum(int frameNum) {
-			this.frameNum = frameNum;
-		}
-	}
 }
 
 
