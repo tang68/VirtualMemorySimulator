@@ -6,21 +6,8 @@ import java.util.Scanner;
 
 public class PhysicalMemory {
 
-	private static String[][] RAM = new String[16][256];
+	private static ram RAM = new ram();
 	private static final String pagesFilePath = "Project2_test_and_page_files/page_files/";
-	private static int frameNumber = 0;
-
-	public static String getValue(int frame, String offset) {
-		
-		return RAM[frame][getOffSetInDecimal(offset)];
-	}
-
-	public static String writeToMemory(int frame, String offset, String value) {
-		
-		RAM[frame][getOffSetInDecimal(offset)] = value;
-		
-		return value;
-	}
 	
 	public static String addDataToMemory(String[] memoryAccess, int frame) {
 		
@@ -34,19 +21,22 @@ public class PhysicalMemory {
 			scanFiles = new Scanner(new FileInputStream(testFilePath));
 			
 			int offsetIndex = 0;
+			String[] tmpRAMItem = new String[256];
 			while (scanFiles.hasNextLine()) {
 				String num = scanFiles.nextLine();
 				if (num.length() > 0) {
-					RAM[frame][offsetIndex] = num;
+					tmpRAMItem[offsetIndex] = num;
 					offsetIndex++;
 				}
 			}
 			
-			if (memoryAccess[0].equals("1"))
-				RAM[frame][getOffSetInDecimal(offset)] = memoryAccess[2];
+			RAM.setRAMItem(frame, tmpRAMItem);
 			
-			returnVal = RAM[frame][getOffSetInDecimal(offset)];
-			frameNumber = getNextAvailableFrame();
+			if (memoryAccess[0].equals("1"))
+				RAM.writeNewValueToRam(frame, getOffSetInDecimal(offset), memoryAccess[2]);
+
+			returnVal = RAM.getValueWrittenToMemory(frame, getOffSetInDecimal(offset));
+			RAM.setFrameNum(RAM.getNextAvailableFrame());
 
 		} catch (FileNotFoundException ex) {
 			System.out.println("***** Unable to open file");
@@ -58,39 +48,118 @@ public class PhysicalMemory {
 		
 	}
 	
+	public static String getValue(int frame, String offset) {
+		return RAM.getValue(frame, getOffSetInDecimal(offset)); 
+	}
+
+	public static String writeToMemory(int frame, String offset, String value) {
+		//RAM[frame][getOffSetInDecimal(offset)] = value;
+		RAM.write(frame, getOffSetInDecimal(offset), value);
+		return value;
+	}
+	
 	public static Boolean isMemoryFull() {
 		
-		return frameNumber == Integer.MAX_VALUE;
+		return RAM.getFrameNum() == Integer.MAX_VALUE;
 	}
 	
 	private static int getOffSetInDecimal(String offset) {
 		return Integer.decode("0x" + offset);
 	}
 	
-	//return max int if RAM is full, else loop thru, return i where RAM[i][0] that is not null
-	public static int getNextAvailableFrame() {
-		
-		for (int i = 0; i < RAM.length; i++) {
-			if (RAM[i][0] == null)
-				return i;
-		}
-		return Integer.MAX_VALUE;
+	public static int getFrameNumber() {
+		return RAM.getFrameNum();
 	}
 	
-	public static String[][] getRAM() {
-		return RAM;
+	public void setFrameNum(int frameNum) {
+		RAM.frameNum = frameNum;
 	}
 
-	public static void setRAM(String[][] rAM) {
-		RAM = rAM;
+	public String getValidBit() {
+		return RAM.validBit;
 	}
 
-	public static int getFrameNumber() {
-		return frameNumber;
+	public void setValidBit(String validBit) {
+		RAM.validBit = validBit;
 	}
 
-	public static void setFrameNumber(int frameNumber) {
-		PhysicalMemory.frameNumber = frameNumber;
+	public String getRefBit() {
+		return RAM.refBit;
 	}
 
+	public void setRefBit(String refBit) {
+		RAM.refBit = refBit;
+	}
+
+	public String getDirtyBit() {
+		return RAM.dirtyBit;
+	}
+
+	public void setDirtyBit(String dirtyBit) {
+		RAM.dirtyBit = dirtyBit;
+	}
+	
+	private static class ram {
+		
+		String[][] r;
+		int frameNum;
+		String validBit;
+		String refBit;
+		String dirtyBit;
+		
+		private ram() {
+			r = new String[16][256];
+			frameNum = 0;
+			validBit = "0";
+			refBit = "0";
+			dirtyBit = "0";
+		}
+
+		public void setRAMItem(int index, String[] arr) {
+			r[index] = arr;
+		}
+		
+		public void writeNewValueToRam(int frame, int offset, String value) {
+			r[frame][offset] = value;
+		}
+		
+		public String getValueWrittenToMemory(int frame, int offset) {
+			return r[frame][offset];
+		}
+		
+		public int getNextAvailableFrame() {
+			
+			for (int i = 0; i < r.length; i++) {
+				if (r[i][0] == null)
+					return i;
+			}
+			return Integer.MAX_VALUE;
+		}
+		
+		public void write(int frame, int offset, String value) {
+			r[frame][offset] = value;
+		}
+		
+		public String getValue(int frame, int offset) {
+			return r[frame][offset];
+		}
+
+		public int getFrameNum() {
+			return frameNum;
+		}
+
+		public void setFrameNum(int frameNum) {
+			this.frameNum = frameNum;
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+

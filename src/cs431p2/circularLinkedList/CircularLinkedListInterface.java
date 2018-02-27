@@ -1,12 +1,13 @@
 package cs431p2.circularLinkedList;
 
 public interface CircularLinkedListInterface<T> {
-
 	public boolean isEmpty();
 	public void clear();
 	public int getSize();
 	public void insert(T item);
 	public T remove();
-	public void replaceNode(T item,T lookingFor);
+	public void replaceByGivenItem(T item,T lookingFor);
+	public void replaceByGivenIndex(T newItem,int index);
+	public T getItemByIndex(int index);
 	public T[] toArray();
 }

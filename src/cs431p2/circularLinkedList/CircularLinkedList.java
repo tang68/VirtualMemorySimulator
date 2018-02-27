@@ -1,6 +1,5 @@
 package cs431p2.circularLinkedList;
 
-import java.util.Arrays;
 
 public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 	
@@ -8,6 +7,7 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 	private Node<T> lastNode;
 	int numberOfEntries;
 	
+	@SuppressWarnings("hiding")
 	private class Node<T>{
 		private T data;
 		private Node<T> next;
@@ -20,12 +20,10 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 			next = nextNode;
 		}
 		
-		@SuppressWarnings("unused")
 		public T getData(){
 			return data;
 		}
 		
-		@SuppressWarnings("unused")
 		public void setData(T newData){
 			data = newData;
 		}
@@ -46,7 +44,9 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 		lastNode = null;
 		numberOfEntries = 0;
 	}
-
+	/**
+	 * Insert the element to the head
+	 */
 	@Override
 	public void insert(T item) {
 		Node<T> newNode = new Node<>(item);
@@ -64,6 +64,9 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 		
 	}
 
+	/**
+	 * remove the first element from the head
+	 */
 	@Override
 	public T remove() {
 		T result = null;
@@ -75,6 +78,11 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 		}
 		return result;
 	}
+	/**
+	 * Get the reference by given the entry
+	 * @param Entry
+	 * @return the reference of the entry
+	 */
 	private Node<T> getReference(T Entry){
 		Node<T> currentNode = firstNode;
 		int runCount = 0;
@@ -89,14 +97,44 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 		}
 		return found? currentNode : null;
 	}
-
+	
+	/**
+	 * Give the item by given the index
+	 * index start by 1, 2,3,4....
+	 * @param index
+	 * @return Reference
+	 */
 	@Override
-	public void replaceNode(T item,T lookingFor) {
-		//Get the lookingFor item referece
+	public T getItemByIndex(int index){
+		Node<T> currentNode = firstNode;
+		for(int i=0;i<index;i++){
+			currentNode = currentNode.next;
+		}
+		return currentNode.getData();
+	}
+	
+	/**
+	 * Replacement by given Index
+	 * @param newItem
+	 * @param index
+	 */
+	@Override
+	public void replaceByGivenIndex(T newItem,int index){
+		replaceByGivenItem(newItem,getItemByIndex(index));
+	}
+
+	/**
+	 * Replacement by given item to searching
+	 * item  =  the new item 
+	 * lookingFor = the old item which you want to replace
+	 */
+	@Override
+	public void replaceByGivenItem(T newItem,T lookingFor) {
+		//Get the lookingFor item reference
 		Node<T> ref = getReference(lookingFor);
 		if(ref!=null){
 			//replace it 
-			ref.setData(item);
+			ref.setData(newItem);
 		}
 	}
 	
@@ -128,22 +166,6 @@ public class CircularLinkedList<T> implements CircularLinkedListInterface<T>{
 			currentNode=currentNode.next;
 		}
 		return result;
-	}
-	
-	public String toString() {
-		
-		return Arrays.toString(toArray());
-	}
-
-	/*
-	 * Just testing it is circular linkedlist
-	 */
-	public void keepToRun(){
-		Node<T> current = firstNode;
-		while(true){
-			System.out.println(current.getData()+" ");
-			current = current.next;
-		}
-	}
+	}	
 
 }

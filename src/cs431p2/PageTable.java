@@ -36,7 +36,7 @@ public class PageTable {
 			if (isRead) {
 				pageTable[intVirtualPageNum] = new PageTableEntries("1", "1", "0", 
 						PhysicalMemory.getFrameNumber());
-				OS.addItemToClock(pageTable[intVirtualPageNum]);
+				//OS.addItemToClock(pageTable[intVirtualPageNum]);
 				System.out.println(intVirtualPageNum + " PT Index --Page Table -> " + 
 						Arrays.toString(pageTable));
 			}
@@ -44,7 +44,7 @@ public class PageTable {
 			else {
 				pageTable[intVirtualPageNum] = new PageTableEntries("1", "1", "1", 
 						PhysicalMemory.getFrameNumber());
-				OS.addItemToClock(pageTable[intVirtualPageNum]);
+				//OS.addItemToClock(pageTable[intVirtualPageNum]);
 				System.out.println(intVirtualPageNum + " PT Index --Page Table -> " + 
 						Arrays.toString(pageTable));	
 			}

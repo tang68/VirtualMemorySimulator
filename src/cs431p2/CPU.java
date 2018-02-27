@@ -38,7 +38,6 @@ public class CPU {
 				if (tmp[2] == null)
 					tmp[2] = OS.bringPageToMemory(memoryAccess);
 				
-				String[][] testRAM = PhysicalMemory.getRAM();
 				
 				System.out.println(Arrays.toString(tmp) + "\n");
 				//put tmp array to the output array
