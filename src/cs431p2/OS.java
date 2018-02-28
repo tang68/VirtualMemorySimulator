@@ -1,5 +1,9 @@
 package cs431p2;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
 import cs431p2.circularLinkedList.*;
 
 public class OS {
@@ -9,19 +13,19 @@ public class OS {
 	private static int clockHand = 0;
 	
 	//put a new page to physical memory, evict a page using the clock algorithm if necessary
-	public static String bringPageToMemory(String[] memoryAccess) {
+	public static String[] bringPageToMemory(String[] memoryAccess) {
 		
 		//check to see if we need to evict a page
-		String value = "";
+		String[] values = {"", "", ""};
 		if (PhysicalMemory.isMemoryFull()) {
-			//System.out.println("******FULL need to evict");
 			int frame = evict();
-			value = PhysicalMemory.addDataToMemory(memoryAccess, frame);
+			values = PhysicalMemory.addDataToMemory(memoryAccess, frame);
+
 		}
 		else {
-			value = PhysicalMemory.addDataToMemory(memoryAccess, PhysicalMemory.getFrameNumber());
+			values = PhysicalMemory.addDataToMemory(memoryAccess, PhysicalMemory.getFrameNumber());
 		}
-		return value;
+		return values;
 	}
 	
 	//return index of the evicted frame
@@ -47,6 +51,7 @@ public class OS {
 				
 				//write RAM[frameToEvict] to .pg file
 				writeToPGFile(PhysicalMemory.getRAMEntry(evictedFrameIndex));
+				
 				if (evictedFrameIndex == 7)
 					System.out.println("");
 				
@@ -59,6 +64,31 @@ public class OS {
 	}
 	
 	private static void writeToPGFile(RAMEntries entry) {
+		
+		String[] data = entry.getR();
+		String virtualPage = entry.getVirtualPage();
+		String filePath = "Project2_test_and_page_files/page_files/" + virtualPage + ".pg";
+		try {
+			PrintWriter pw = new PrintWriter(filePath);
+			pw.close();
+		} catch (Exception e) {
+			System.out.println("****** Unable to remove data from disk in order to write");
+		}
+		
+		try {
+			BufferedWriter outputWriter = null;
+			  outputWriter = new BufferedWriter(new FileWriter(filePath));
+			  for (int i = 0; i < data.length; i++) {
+			    outputWriter.write(data[i]);
+			    outputWriter.newLine();
+			  }
+			  outputWriter.flush();  
+			  outputWriter.close();  
+			
+		} catch (Exception e) {
+			System.out.println("******* Unable to write data from memory to disk");
+		}
+		
 		
 	}
 	

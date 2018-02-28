@@ -36,6 +36,14 @@ public class RAMEntries {
 		return validBit;
 	}
 
+	public String[] getR() {
+		return r;
+	}
+
+	public void setR(String[] r) {
+		this.r = r;
+	}
+
 	public String getVirtualPage() {
 		return virtualPage;
 	}

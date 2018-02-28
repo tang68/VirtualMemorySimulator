@@ -29,19 +29,19 @@ public class CPU {
 				String[] memoryAccess = readData(scanFiles);
 				System.out.println(Arrays.toString(memoryAccess));
 				
-				if (memoryAccess[1].equals("72EF")) {
-					System.out.println();
-				}
-					
-				
 				//give data to MMU for fetching or writing, store the result 
 				// of what happen after that access into an array
 				String[] tmp = MMUnit.processMemoryAccess(memoryAccess);
 				
 				//on read, if tmp[2] = null => hard miss, CPU trap to OS, 
 				//OS get data from disk and put to memory
-				if (tmp[2] == null)
-					tmp[2] = OS.bringPageToMemory(memoryAccess);
+				if (tmp[2] == null) {
+					String[] s = OS.bringPageToMemory(memoryAccess);
+					tmp[2] = s[0];
+					tmp[6] = s[1];
+					tmp[7] = s[2];
+					
+				}
 				
 				
 				
@@ -55,7 +55,6 @@ public class CPU {
 				OS.updateClock();
 				
 				RAMEntries[] test = PhysicalMemory.getRAM();
-				System.out.println(test);
 				int x = 0;
 			}
 			

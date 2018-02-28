@@ -10,10 +10,10 @@ public class PhysicalMemory {
 	private static final String pagesFilePath = "Project2_test_and_page_files/page_files/";
 	private static int frameNumber = 0;
 	
-	public static String addDataToMemory(String[] memoryAccess, int frame) {
+	public static String[] addDataToMemory(String[] memoryAccess, int frame) {
 		
 		String address = memoryAccess[1];
-		String returnVal = "";
+		String returnVal[] = {"","",""};
 		String virtualPageNumber = address.substring(0, 2);
 		String offset = address.substring(2, 4);
 		Scanner scanFiles = null;
@@ -44,7 +44,7 @@ public class PhysicalMemory {
 				RAM[frame].setDirtyBit("1");
 			}
 
-			returnVal = RAM[frameNumber].getValueWrittenToMemory(getOffSetInDecimal(offset));
+			returnVal[0] = RAM[frameNumber].getValueWrittenToMemory(getOffSetInDecimal(offset));
 			
 
 		} catch (FileNotFoundException ex) {
@@ -55,10 +55,12 @@ public class PhysicalMemory {
 		
 		//check to see if memory is full
 		frameNumber = getNextAvailableFrame();
-		if (frameNumber == Integer.MAX_VALUE)
+		
+		if (frameNumber == Integer.MAX_VALUE) {
 			frameNumber = OS.evict();
-		
-		
+			returnVal[1] = Integer.toString(frameNumber);
+			returnVal[2] = RAM[frameNumber].getDirtyBit();
+		}
 		
 		return returnVal;
 		
