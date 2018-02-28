@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-import cs431p2.circularLinkedList.*;
 
 public class OS {
 	

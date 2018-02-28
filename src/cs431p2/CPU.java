@@ -11,9 +11,9 @@ public class CPU {
 		
 		Scanner scanInput = new Scanner(System.in);
 		System.out.println("Enter test file name: ");
-//		String testFile = scanInput.next();
-//		String testFilePath = "Project2_test_and_page_files/test_files/" + testFile;
-		String testFilePath = "Project2_test_and_page_files/test_files/test_1.txt";
+		String testFile = scanInput.next();
+		String testFilePath = "Project2_test_and_page_files/test_files/" + testFile;
+		//String testFilePath = "Project2_test_and_page_files/test_files/test_1.txt";
 		
 		Scanner scanFiles = null;
 		MMU MMUnit = new MMU();
@@ -40,11 +40,8 @@ public class CPU {
 					tmp[2] = s[0];
 					tmp[6] = s[1];
 					tmp[7] = s[2];
-					
 				}
-				
-				
-				
+
 				System.out.println(Arrays.toString(tmp) + "\n");
 				//put tmp array to the output array
 				output[outputIndex] = tmp;
@@ -57,9 +54,9 @@ public class CPU {
 				RAMEntries[] test = PhysicalMemory.getRAM();
 				int x = 0;
 			}
-			
-
-			outputToCSV(output, "o1.csv");
+	
+			String outputName = testFile.substring(0, testFile.length() - 4) + ".csv";
+			outputToCSV(output, outputName);
 
 		} catch (FileNotFoundException ex) {
 			System.out.println("***** Unable to open file");
